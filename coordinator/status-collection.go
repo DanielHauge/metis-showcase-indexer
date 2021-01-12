@@ -1,6 +1,7 @@
 package coordinator
 
 import (
+	. "../shared"
 	"fmt"
 	"github.com/DanielHauge/goSpace/space"
 	"time"
@@ -8,20 +9,15 @@ import (
 
 var statusSpace space.Space
 
-type StatusReport struct {
-	WorkerId string
-	Status string
-	Since time.Time
-}
-
 func InitStatusSpace(uri string){
 	statusSpace = space.NewSpace(uri)
+	Log("Status space initialized")
 }
 
 func GetStatusReports(){
-	workerId := ""
-	status := ""
-	since := time.Now()
+	var workerId string
+	var status string
+	var since time.Time
 
 	query, _ := statusSpace.QueryAll(&workerId, &status, &since)
 	for _, t := range query {

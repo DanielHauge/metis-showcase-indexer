@@ -1,15 +1,14 @@
 package coordinator
 
-import . "../shared"
+import (
+	. "../shared"
+)
 
-var Repositories = make(map[string]string)
-
-func Coordinator() {
-
+func RunCoordinator() {
+	Log("Initializing Coordinator")
 	go ControlServer()
-	InitStatusSpace(StatusSpace())
-
-
+	go InitStatusSpace(StatusSpace())
+	go InitTaskDelegator(TaskSpace())
 	<- make(chan string)
 }
 
