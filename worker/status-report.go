@@ -12,30 +12,39 @@ var statusSpace space.Space
 
 
 func ConnectWorkerStatus(){
-	statusSpace = space.NewRemoteSpace(StatusSpace())
-	statusSpace.Put(workerId, "idle", time.Now())
-	Logf("Worker: %v connected to status space", workerId)
+	uri := StatusSpaceUri()
+	statusSpace = space.NewRemoteSpace(uri)
+	statusSpace.Put(workerId, "idle", time.Now().Format(TimeFormat))
+	Log(fmt.Sprintf("Connected to status space at: %v", uri))
+}
+
+func ConnectLogSpace(){
+	uri := LogSpaceUri()
+	LogSpace = space.NewRemoteSpace(uri)
+	Log(fmt.Sprintf("Connected to log space at: %v", uri))
 }
 
 func CloseStatusSpace(){
 	var s string
-	var t time.Time
+	var t string
 	statusSpace.GetP(workerId, &s, &t)
-	Logf("Worker: %v disconnected from status space", workerId)
+	Log("Disconnected from status space")
 }
 
 func ReportTaskBegin(task string){
 	var s string
-	var t time.Time
+	var t string
 	statusSpace.Get(workerId, &s, &t)
-	statusSpace.Put(workerId, fmt.Sprintf("Working on: %v", task), time.Now())
-	Logf("Worker: %v began working on: %v", workerId, task)
+	workStr := fmt.Sprintf("Working on: %v", task)
+	statusSpace.Put(workerId, workStr, time.Now().Format(TimeFormat))
+	Log(workStr)
 }
 
 func ReportTaskDone(task string){
 	var s string
-	var t time.Time
+	var t string
 	statusSpace.Get(workerId, &s, &t)
-	statusSpace.Put(workerId, fmt.Sprintf("Done with: %v", task), time.Now())
-	Logf("Worker: %v done with: %v", workerId, task)
+	doneStr := fmt.Sprintf("Done with: %v", task)
+	statusSpace.Put(workerId, doneStr, time.Now().Format(TimeFormat))
+	Log(doneStr)
 }

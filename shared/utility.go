@@ -2,12 +2,16 @@ package shared
 
 import (
 	"fmt"
+	"github.com/DanielHauge/goSpace/space"
 	"os"
 	"time"
 )
 
 const Worker = "worker"
 const Coordinator = "coordinator"
+const TimeFormat = "2006-01-02 15:04:05"
+var LogSpace space.Space
+var ClientName string
 
 type StatusReport struct {
 	WorkerId string
@@ -15,21 +19,16 @@ type StatusReport struct {
 	Since time.Time
 }
 
-func networkArgs() (string,string) {
-	host := withDefault(os.Getenv("host"), "localhost")
-	port := withDefault(os.Getenv("port"), "31415")
-	return host, port
+func StatusSpaceUri() string{
+	return "tcp://" + withDefault(os.Getenv("host"), "localhost") + ":9092/status"
 }
 
-func StatusSpace() string{
-	host, port := networkArgs()
-	return "tcp://" + host + ":" + port + "/status"
+func LogSpaceUri() string{
+	return "tcp://" + withDefault(os.Getenv("host"), "localhost") + ":9093/log"
 }
 
-
-func TaskSpace() string {
-	host, port := networkArgs()
-	return "tcp://" + host + ":" + port + "/task"
+func TaskSpaceUri() string {
+	return "tcp://" + withDefault(os.Getenv("host"), "localhost") + ":9091/task"
 }
 
 func withDefault(s string, def string) string{
@@ -37,11 +36,10 @@ func withDefault(s string, def string) string{
 	return s
 }
 
-func Log(s string){
-	fmt.Println(s)
+func Log(message string){
+	log := fmt.Sprintf("%v - %v\n", ClientName, message)
+	fmt.Println(log)
+	LogSpace.Put(log)
 }
 
-func Logf(s string, a ...interface{}){
-	fmt.Printf(s, a)
-}
 

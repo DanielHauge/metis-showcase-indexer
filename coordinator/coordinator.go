@@ -5,10 +5,12 @@ import (
 )
 
 func RunCoordinator() {
-	Log("Initializing Coordinator")
+	ClientName = "Coordinator"
+	InitLogsSpace()
 	go ControlServer()
-	go InitStatusSpace(StatusSpace())
-	go InitTaskDelegator(TaskSpace())
+	go InitStatusSpace()
+	go InitTaskDelegator()
+	Log("Fully Initializing")
 	<- make(chan string)
 }
 

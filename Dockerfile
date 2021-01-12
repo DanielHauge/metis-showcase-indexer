@@ -1,16 +1,15 @@
 FROM golang
 
 RUN go get -u github.com/DanielHauge/goSpace
-RUN go get -u github.com/rs/xid
+RUN go get -u github.com/beevik/guid
 
-# Copy the server code into the container
-WORKDIR /go/src/app
+
 COPY . .
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+RUN go build -o app
 
-# Make port 8787 available to the host
-EXPOSE 31415, 8080, 80
+EXPOSE 31415
+EXPOSE 8080
+EXPOSE 80
 
-CMD ["app"]
+CMD ["./app"]

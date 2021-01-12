@@ -2,32 +2,38 @@ package coordinator
 
 import (
 	. "../shared"
+	"fmt"
 	"github.com/DanielHauge/goSpace/space"
 	"time"
 )
 
 var repositoriesSpace space.Space
+var taskSpace space.Space
 
-func InitTaskDelegator(uri string){
 
-	taskSpace := space.NewSpace(uri)
+func InitTaskDelegator(){
+	uri := TaskSpaceUri()
+	taskSpace = space.NewSpace(uri)
 	repositoriesSpace = space.NewSpace("repo")
 
-	Log("Task delegation space and repository space initialized")
+	Log(fmt.Sprintf("Task space initialized at: %v", uri))
 
 	var r string
-	var t time.Time
+	var tStr string
+	repositoriesSpace.Get(&r, &tStr)
 	for {
-		repositoriesSpace.Get(&r, &t)
-		Logf("Repository to be reindex: %v at %v", r, t)
+		Log(fmt.Sprintf("Repository to be reindex: %v at %v", r, tStr))
 		now := time.Now()
+		t, _ := time.Parse(TimeFormat, tStr)
 		if t.After(now) {
 			until := t.Sub(now)
-			Logf("Waiting with task delegation for %v", until)
+			Log(fmt.Sprintf("Waiting with task delegation for %v", until))
 			<- time.After(until)
 		}
 		taskSpace.Put(r)
-		Logf("Repository: %v got delegated", r)
-		repositoriesSpace.Put(r, time.Now().Add(time.Second * 10))
+		Log(fmt.Sprintf("Repository: %v got delegated", r))
+		repositoriesSpace.PutP(r, time.Now().Add(time.Second * 10).Format(TimeFormat))
+		repositoriesSpace.Get(&r, &tStr)
 	}
 }
+

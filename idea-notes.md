@@ -17,3 +17,7 @@ Reindex queue -> Worker
   - Analyse typical metrics and add to stats
 - Accumulate metrics and stats
 - Find showcase file and save tabs, stats and metrics to redis
+
+
+## Issues
+- Repo space is not queue, it is stack, it never loops.

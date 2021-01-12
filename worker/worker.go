@@ -2,15 +2,16 @@ package worker
 
 import (
 	. "../shared"
-	"github.com/rs/xid"
+	"fmt"
+	"github.com/beevik/guid"
 )
 
 var workerId string
 
 func RunWorker() {
-
-	workerId = xid.New().String()
-	Logf("Initilizing worker with id: %v",workerId)
+	workerId = guid.New().String()
+	ClientName = fmt.Sprintf("Worker: %v", workerId)
+	ConnectLogSpace()
 	ConnectWorkerStatus()
 	defer CloseStatusSpace()
 	InitTaskReceiver()
