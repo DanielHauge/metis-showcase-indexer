@@ -29,12 +29,15 @@ func RunWorker(){
 		switch task {
 		case INDEXFILE:
 			go IndexFile(repository, fileName, fileContent)
-			TaskSpace.Put(managerId, RESULT, task, repository, "indexed")
+			_,e := TaskSpace.Put(managerId, RESULT, task, repository, "indexed")
+			CheckError(e)
 		case ANALYSE_GO:
 			report := AnalyseGoFile(fileName, fileContent)
-			TaskSpace.Put(managerId, RESULT, task, repository, report.RenderJSON())
+			_,e := TaskSpace.Put(managerId, RESULT, task, repository, report.RenderJSON())
+			CheckError(e)
 		default:
-			TaskSpace.Put(managerId, RESULT, task, repository, fmt.Sprintf("error:%v is not a valid task", task))
+			_,e := TaskSpace.Put(managerId, RESULT, task, repository, fmt.Sprintf("error:%v is not a valid task", task))
+			CheckError(e)
 		}
 		ReportDone(taskDescription)
 
