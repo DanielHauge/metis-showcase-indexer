@@ -3,33 +3,20 @@ package shared
 import (
 	"fmt"
 	"github.com/DanielHauge/goSpace/space"
-	"os"
-	"time"
 )
 
-const Worker = "worker"
+const Manager = "manager"
 const Coordinator = "coordinator"
+const Worker = "worker"
 const TimeFormat = "2006-01-02 15:04:05"
-var LogSpace space.Space
-var ClientName string
 
-type StatusReport struct {
-	WorkerId string
-	Status string
-	Since time.Time
-}
-
-func StatusSpaceUri() string{
-	return "tcp://" + withDefault(os.Getenv("host"), "localhost") + ":9092/status"
-}
-
-func LogSpaceUri() string{
-	return "tcp://" + withDefault(os.Getenv("host"), "localhost") + ":9093/log"
-}
-
-func TaskSpaceUri() string {
-	return "tcp://" + withDefault(os.Getenv("host"), "localhost") + ":9091/task"
-}
+var (
+	LogSpace space.Space
+	IndexSpace space.Space
+	StatusSpace space.Space
+	TaskSpace space.Space
+	ClientName string
+)
 
 func withDefault(s string, def string) string{
 	if len(s) == 0 { return def }
@@ -40,6 +27,28 @@ func Log(message string){
 	log := fmt.Sprintf("%v - %v\n", ClientName, message)
 	fmt.Println(log)
 	LogSpace.Put(log)
+}
+
+func CheckError(err error) bool{
+	if err != nil {
+		Log(fmt.Sprintf("Failed with: %v", err))
+		return true
+	}
+	return false
+}
+
+func CheckErrorF(err error){
+	if err != nil{
+		Log(fmt.Sprintf("Failed with: %v", err))
+		panic(err)
+	}
+}
+
+func LogPanicError(){
+	if r := recover(); r!= nil{
+		fmt.Println(r)
+		Log(fmt.Sprintf("Panic with error: %v", r))
+	}
 }
 
 

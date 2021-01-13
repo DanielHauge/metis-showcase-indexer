@@ -8,12 +8,10 @@ import (
 )
 
 var repositoriesSpace space.Space
-var taskSpace space.Space
 
-
-func InitTaskDelegator(){
-	uri := TaskSpaceUri()
-	taskSpace = space.NewSpace(uri)
+func InitIndexDelegator(){
+	uri := IndexSpaceUri()
+	IndexSpace = space.NewSpace(uri)
 	repositoriesSpace = space.NewSpace("repo")
 
 	Log(fmt.Sprintf("Task space initialized at: %v", uri))
@@ -30,7 +28,7 @@ func InitTaskDelegator(){
 			Log(fmt.Sprintf("Waiting with task delegation for %v", until))
 			<- time.After(until)
 		}
-		taskSpace.Put(r)
+		IndexSpace.Put(r)
 		Log(fmt.Sprintf("Repository: %v got delegated", r))
 		repositoriesSpace.PutP(r, time.Now().Add(time.Second * 10).Format(TimeFormat))
 		repositoriesSpace.Get(&r, &tStr)

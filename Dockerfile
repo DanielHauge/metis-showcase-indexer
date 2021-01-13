@@ -2,7 +2,8 @@ FROM golang
 
 RUN go get -u github.com/DanielHauge/goSpace
 RUN go get -u github.com/beevik/guid
-
+RUN go get github.com/go-git/go-git
+RUN go get -u github.com/droptheplot/abcgo
 
 COPY . .
 
