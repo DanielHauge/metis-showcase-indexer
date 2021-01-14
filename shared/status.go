@@ -42,7 +42,7 @@ func ReportDone(task string){
 	var s string
 	var t string
 	StatusSpace.Get(StatusId, &s, &t)
-	message := fmt.Sprintf("Done with: %v", task)
+	message := fmt.Sprintf("idle, last task: %v", task)
 	StatusSpace.Put(StatusId, message, time.Now().Format(TimeFormat))
 	Log(message)
 }

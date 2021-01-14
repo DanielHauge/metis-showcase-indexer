@@ -10,13 +10,32 @@ const Coordinator = "coordinator"
 const Worker = "worker"
 const TimeFormat = "2006-01-02 15:04:05"
 
+
+
 var (
 	LogSpace space.Space
 	IndexSpace space.Space
 	StatusSpace space.Space
 	TaskSpace space.Space
 	ClientName string
+	ProgrammingLanguages map[string]string
 )
+
+func InitUtility(){
+	ProgrammingLanguages = map[string]string{
+		".go" : "Go",
+		".cs" : "C#",
+		".java": "Java",
+		".c" : "C",
+		".cpp" : "C++",
+		".js" : "Javascript",
+		".ts" : "Typescript",
+		".scala" : "Scala",
+		".rb" : "Ruby",
+		".sh" : "Shell",
+		".md" : "Markdown",
+	}
+}
 
 func withDefault(s string, def string) string{
 	if len(s) == 0 { return def }

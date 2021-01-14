@@ -9,10 +9,8 @@ import (
 
 // Inspiration from: https://github.com/droptheplot/abcgo/blob/master/main.go
 
-// Reports is a collection of Report.
 type Reports []Report
 
-// Report contains statistics for single function.
 type Report struct {
 	Path       string `json:"path"`
 	Line       int    `json:"line"`

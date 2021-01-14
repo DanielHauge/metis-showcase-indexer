@@ -4,6 +4,9 @@ RUN go get -u github.com/DanielHauge/goSpace
 RUN go get -u github.com/beevik/guid
 RUN go get github.com/go-git/go-git
 RUN go get -u github.com/droptheplot/abcgo
+RUN go get -u github.com/elastic/go-elasticsearch
+RUN go get github.com/robfig/cron
+
 
 COPY . .
 

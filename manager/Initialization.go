@@ -7,7 +7,7 @@ import (
 	"github.com/go-git/go-git"
 	"github.com/go-git/go-git/plumbing/object"
 	"github.com/go-git/go-git/storage/memory"
-	"strings"
+	"path/filepath"
 )
 
 
@@ -27,6 +27,8 @@ func InitManager(){
 		IndexSpace.Get(&r)
 		ReportStarted(r)
 
+		TaskSpace.Put(ClientName, TASK, CLEAR, r, "none", "none")
+
 		repo, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{	URL: r	})
 		if CheckError(err) { continue }
 		ref, err := repo.Head()
@@ -45,13 +47,14 @@ func InitManager(){
 			n := file.Name
 
 			content, e := file.Contents()
+			fileExt := filepath.Ext(n)
 
 			if !CheckError(e){
-				TaskSpace.Put(ClientName, TASK, INDEXFILE, r, n, content )
-				if strings.HasSuffix(n, ".go") {
+				TaskSpace.Put(ClientName, TASK, INDEX_FILE, r, n, content )
+				if fileExt == ".go" {
 					TaskSpace.Put(ClientName, TASK, ANALYSE_GO, r, n, content )
 				}
-				if strings.HasSuffix(n, ".showcase") {
+				if fileExt == ".showcase" {
 					TaskSpace.Put(ClientName, TASK, SHOWCASE, r, n, content )
 				}
 			}
@@ -65,7 +68,6 @@ func InitManager(){
 			switch taskName {
 			case ANALYSE_GO:
 				reports := ParseReports(res)
-
 				goReports = append(goReports, reports...)
 			}
 			tasksCount--
@@ -73,14 +75,8 @@ func InitManager(){
 
 		var reports Reports
 		reports = goReports
+		TaskSpace.Put(ClientName, TASK, INDEX_REPORT, r, "report.analysis", reports.RenderJSON())
 
-		Log(fmt.Sprintf("DONE: %v", reports.RenderJSON()))
-
-		// - Download Files
-		//  - Index code file with (Lines, Language, ProjectId, Filename)
-		//  - Analyse code for smells and add to notification messages.
-		//  - Analyse typical metrics and add to stats
-		// - Find showcase file and save tabs, stats and metrics to redis
 
 		ReportDone(r)
 	}

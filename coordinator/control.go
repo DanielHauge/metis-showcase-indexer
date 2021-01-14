@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 )
 
 
@@ -20,8 +19,8 @@ func ControlServer(){
 		if err != nil { http.Error(writer, err.Error(), 500); return }
 		defer request.Body.Close()
 		s := string(b)
-		repositoriesSpace.Put(s, time.Now().Add(1*time.Second).Format(TimeFormat))
-		Log("Repository added")
+		repositoriesSpace.Put(s)
+		Log("Repository added "+s)
 	})
 
 	http.HandleFunc("/log", func(writer http.ResponseWriter, request *http.Request) {
