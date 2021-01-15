@@ -33,6 +33,7 @@ curl -d "https://github.com/DanielHauge/metis-showcase-api" http://localhost:808
 curl -d "https://github.com/DanielHauge/plex-folder-soldier" http://localhost:8080/add
 curl -d "https://github.com/DanielHauge/Wowhub-Backend" http://localhost:8080/add
 curl -d "https://github.com/DanielHauge/Wowhub-Frontend" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/LanguageProject" http://localhost:8080/add
 
 # Echo the control commands for easy copy paste.
 echo "curl http://localhost:8080/log"

@@ -28,12 +28,18 @@ func InitUtility(){
 		".java": "Java",
 		".c" : "C",
 		".cpp" : "C++",
+		".h" : "C/C++",
 		".js" : "Javascript",
 		".ts" : "Typescript",
 		".scala" : "Scala",
 		".rb" : "Ruby",
 		".sh" : "Shell",
 		".md" : "Markdown",
+		".rs" : "Rust",
+		".py" : "Python",
+		".php" : "PHP",
+		".kt" : "Kotlin",
+		".dart" : "Dart",
 	}
 }
 
