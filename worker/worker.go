@@ -43,8 +43,12 @@ func RunWorker(){
 			CheckError(e)
 		case INDEX_REPORT:
 			IndexReport(repository, ParseReports(fileContent))
+			_,e := TaskSpace.Put(managerId, RESULT, task, repository, "indexed")
+			CheckError(e)
 		case CLEAR:
 			go ClearRepositoryFromIndex(repository)
+			_,e := TaskSpace.Put(managerId, RESULT, task, repository, "cleared")
+			CheckError(e)
 		default:
 			_,e := TaskSpace.Put(managerId, RESULT, task, repository, fmt.Sprintf("error:%v is not a valid task", task))
 			CheckError(e)

@@ -22,12 +22,14 @@ func InitManager(){
 	Log(fmt.Sprintf("Connected to task space at: %v", taskSpaceUri))
 
 	var r string
+	var res string
 
 	for {
 		IndexSpace.Get(&r)
 		ReportStarted(r)
 
 		TaskSpace.Put(ClientName, TASK, CLEAR, r, "none", "none")
+		TaskSpace.Get(ClientName, RESULT, CLEAR, r, &res)
 
 		repo, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{	URL: r	})
 		if CheckError(err) { continue }
@@ -61,7 +63,7 @@ func InitManager(){
 			return nil
 		})
 
-		var res string
+
 		for tasksCount > 0 {
 			var taskName string
 			TaskSpace.Get(ClientName, RESULT, &taskName, r, &res)
@@ -76,7 +78,7 @@ func InitManager(){
 		var reports Reports
 		reports = goReports
 		TaskSpace.Put(ClientName, TASK, INDEX_REPORT, r, "report.analysis", reports.RenderJSON())
-
+		TaskSpace.Get(ClientName, RESULT, INDEX_REPORT, r, &res)
 
 		ReportDone(r)
 	}
