@@ -34,10 +34,24 @@ curl -d "https://github.com/DanielHauge/plex-folder-soldier" http://localhost:80
 curl -d "https://github.com/DanielHauge/Wowhub-Backend" http://localhost:8080/add
 curl -d "https://github.com/DanielHauge/Wowhub-Frontend" http://localhost:8080/add
 curl -d "https://github.com/DanielHauge/LanguageProject" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/02157-fp-exercises" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/metis-website-v1" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/metis-android-todoapp" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/metis-website-api-v1" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/SSLExampleReversevedCommandServer" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/gutenberg-backend" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/gutenberg-databases" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/TestEX8" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/DSAL3" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/DBEX9" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/TestEX7" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/Datastructures-Algorithms-Exercises" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/TestEX6" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/DBEX8" http://localhost:8080/add
+curl -d "https://github.com/DanielHauge/TestEX5" http://localhost:8080/add
+
 
 # Echo the control commands for easy copy paste.
 echo "curl http://localhost:8080/log"
-echo "curl http://localhost:8080/repo"
-echo "curl http://localhost:8080/tasks"
 echo "curl http://localhost:8080/status"
 echo "docker rm \$(docker stop \$(docker ps -aq))"

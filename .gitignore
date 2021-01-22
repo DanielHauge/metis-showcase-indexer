@@ -13,3 +13,7 @@
 
 # Ide
 .idea/
+
+*.mp4
+*.veg
+*.veg.bak
